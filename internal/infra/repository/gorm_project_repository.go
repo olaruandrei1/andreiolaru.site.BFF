@@ -60,10 +60,9 @@ func (r *GormProjectRepository) GetProjects(ctx context.Context) ([]appmodel.Pro
 			continue
 		}
 
-		var tech dbmodel.TechnologyDB
-		if err := r.db.WithContext(ctx).Where("skill_name = ?", lang).First(&tech).Error; err != nil {
-			// fallback dacă nu găsește SVG-ul
-			tech.SvgURL = "/icons/default.svg"
+		var skill dbmodel.SkillDB
+		if err := r.db.WithContext(ctx).Where("skill_name = ?", lang).First(&skill).Error; err != nil {
+			skill.SvgURL = "/icons/default.svg"
 		}
 
 		project := appmodel.Project{
@@ -71,7 +70,7 @@ func (r *GormProjectRepository) GetProjects(ctx context.Context) ([]appmodel.Pro
 			Technologies: []appmodel.ProjectTechnology{
 				{
 					Name: lang,
-					Icon: tech.SvgURL,
+					Icon: skill.SvgURL,
 				},
 			},
 			RepoURL: repo.HTMLURL,

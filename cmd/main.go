@@ -12,27 +12,46 @@ import (
 
 	"andreiolaru.site.bff/internal/adapter/rest"
 	"andreiolaru.site.bff/internal/app"
+	seed "andreiolaru.site.bff/internal/infra/initializer"
 	"andreiolaru.site.bff/internal/infra/repository"
+	"andreiolaru.site.bff/internal/infra/repository/migration"
 	"andreiolaru.site.bff/pkg/middleware"
 )
 
 func main() {
-	// .env
 	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatal("❌ Error loading .env file")
 	}
 
-	// Build DSN din variabilele .env
 	user := os.Getenv("DB_USER")
 	pass := os.Getenv("DB_PASS")
 	host := os.Getenv("DB_HOST")
 	name := os.Getenv("DB_NAME")
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true", user, pass, host, name)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true&charset=utf8mb4&loc=Local", user, pass, host, name)
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("Failed to connect to DB: %v", err)
 	}
+
+	if os.Getenv("ENV") == "development" {
+		sqlDB, _ := db.DB()
+		defer func() {
+			migration.DropAllTables(db)
+			sqlDB.Close()
+		}()
+	}
+
+	migration.AutoMigrateAll(db)
+
+	seed.InitSeedData(db)
+	seed.SeedBackendSkills(db)
+	seed.SeedCICDSkills(db)
+	seed.SeedCloudSkills(db)
+	seed.SeedDatabaseSkills(db)
+	seed.SeedFrontendSkills(db)
+	seed.SeedQueueSkills(db)
+	seed.SeedToolSkills(db)
 
 	meRepo := repository.NewGormMeRepository(db)
 	aboutRepo := repository.NewGormAboutRepository(db)
@@ -56,8 +75,10 @@ func main() {
 	)
 
 	mux := router.RegisterRoutes()
-	secured := middleware.ApiKeyAuthMiddleware(mux)
+
+	apiSecured := middleware.ApiKeyAuthMiddleware(mux)
+	corsHandler := middleware.CORS(apiSecured)
 
 	log.Println("Server running at http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", secured))
+	log.Fatal(http.ListenAndServe(":8080", corsHandler))
 }

@@ -8,3 +8,7 @@ type EducationDB struct {
 	Description string
 	Variant     string
 }
+
+func (EducationDB) TableName() string {
+	return "education"
+}

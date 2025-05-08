@@ -7,3 +7,7 @@ type ExperienceDB struct {
 	Period      string
 	Description string
 }
+
+func (ExperienceDB) TableName() string {
+	return "experience"
+}

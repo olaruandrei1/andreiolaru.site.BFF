@@ -9,3 +9,7 @@ type ContactMessageDB struct {
 	Message   string
 	CreatedAt time.Time
 }
+
+func (ContactMessageDB) TableName() string {
+	return "contact_messages"
+}

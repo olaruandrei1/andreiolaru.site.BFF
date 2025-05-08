@@ -2,6 +2,7 @@ package rest
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"andreiolaru.site.bff/internal/app"
@@ -21,5 +22,6 @@ func (h *EducationHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "failed to fetch education", http.StatusInternalServerError)
 		return
 	}
+	log.Println(education)
 	json.NewEncoder(w).Encode(education)
 }

@@ -8,3 +8,7 @@ type AboutDB struct {
 	MindsetText  string
 	CVURL        string
 }
+
+func (AboutDB) TableName() string {
+	return "about"
+}

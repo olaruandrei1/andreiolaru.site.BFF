@@ -21,5 +21,6 @@ func (h *ExperienceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "failed to fetch experience", http.StatusInternalServerError)
 		return
 	}
+
 	json.NewEncoder(w).Encode(data)
 }

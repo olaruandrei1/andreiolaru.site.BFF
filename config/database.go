@@ -16,10 +16,10 @@ var DB *gorm.DB
 func InitDatabase() {
 	dsn := fmt.Sprintf(
 		"%s:%s@tcp(%s)/%s?parseTime=true",
-		getEnv("DB_USER", "root"),
-		getEnv("DB_PASS", "password"),
-		getEnv("DB_HOST", "127.0.0.1:3306"),
-		getEnv("DB_NAME", "andrei_db"),
+		getEnv("DB_USER", ""),
+		getEnv("DB_PASS", ""),
+		getEnv("DB_HOST", ""),
+		getEnv("DB_NAME", ""),
 	)
 
 	var err error
@@ -40,7 +40,7 @@ func InitDatabase() {
 	sqlDB.SetMaxOpenConns(10)
 	sqlDB.SetMaxIdleConns(5)
 
-	log.Println("✅ Connected to MySQL")
+	log.Println("Connected to MySQL")
 }
 
 func getEnv(key, fallback string) string {

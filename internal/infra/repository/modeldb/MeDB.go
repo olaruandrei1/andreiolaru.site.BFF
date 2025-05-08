@@ -7,3 +7,7 @@ type MeDB struct {
 	Description string
 	ImageURL    string
 }
+
+func (MeDB) TableName() string {
+	return "me"
+}

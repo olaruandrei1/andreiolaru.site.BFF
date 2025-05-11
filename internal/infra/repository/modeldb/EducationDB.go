@@ -7,6 +7,7 @@ type EducationDB struct {
 	Period      string
 	Description string
 	Variant     string
+	PhotoPath   string
 }
 
 func (EducationDB) TableName() string {

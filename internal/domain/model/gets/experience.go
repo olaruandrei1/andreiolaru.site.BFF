@@ -5,4 +5,5 @@ type Experience struct {
 	Title       string `json:"title"`
 	Period      string `json:"period"`
 	Description string `json:"description"`
+	PhotoPath   string `json:"photoPath"`
 }

@@ -30,6 +30,7 @@ func (r *GormEducationRepository) GetEducation(ctx context.Context) ([]model.Edu
 			Period:      e.Period,
 			Description: e.Description,
 			Variant:     model.EducationVariant(e.Variant),
+			PhotoPath:   e.PhotoPath,
 		})
 	}
 

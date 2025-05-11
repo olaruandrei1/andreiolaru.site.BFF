@@ -34,13 +34,7 @@ func main() {
 		log.Fatalf("Failed to connect to DB: %v", err)
 	}
 
-	if os.Getenv("ENV") == "development" {
-		sqlDB, _ := db.DB()
-		defer func() {
-			migration.DropAllTables(db)
-			sqlDB.Close()
-		}()
-	}
+	migration.DropAllTables(db)
 
 	migration.AutoMigrateAll(db)
 
@@ -52,6 +46,7 @@ func main() {
 	seed.SeedFrontendSkills(db)
 	seed.SeedQueueSkills(db)
 	seed.SeedToolSkills(db)
+	seed.SeedMobileSkills(db)
 
 	meRepo := repository.NewGormMeRepository(db)
 	aboutRepo := repository.NewGormAboutRepository(db)

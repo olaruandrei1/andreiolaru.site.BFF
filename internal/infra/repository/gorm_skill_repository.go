@@ -20,7 +20,10 @@ func (r *GormSkillRepository) GetSkills(ctx context.Context) ([]appmodel.SkillCa
 	var dbCategories []dbmodel.SkillCategoryDB
 
 	if err := r.db.WithContext(ctx).
-		Preload("Skills").
+		Preload("Skills", func(db *gorm.DB) *gorm.DB {
+			return db.Order("order ASC")
+		}).
+		Order("order ASC").
 		Find(&dbCategories).Error; err != nil {
 		return nil, err
 	}

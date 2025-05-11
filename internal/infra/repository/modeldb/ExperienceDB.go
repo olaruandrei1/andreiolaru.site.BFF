@@ -6,6 +6,7 @@ type ExperienceDB struct {
 	Title       string
 	Period      string
 	Description string
+	PhotoPath   string
 }
 
 func (ExperienceDB) TableName() string {

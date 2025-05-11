@@ -14,4 +14,5 @@ type Education struct {
 	Period      string           `json:"period"`
 	Description string           `json:"description"`
 	Variant     EducationVariant `json:"variant"`
+	PhotoPath   string           `json:"photoPath"`
 }

@@ -29,6 +29,7 @@ func (r *GormExperienceRepository) GetExperience(ctx context.Context) ([]model.E
 			Title:       dbExp.Title,
 			Period:      dbExp.Period,
 			Description: dbExp.Description,
+			PhotoPath:   dbExp.PhotoPath,
 		})
 	}
 

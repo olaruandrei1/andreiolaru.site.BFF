@@ -22,6 +22,7 @@ func SeedToolSkills(db *gorm.DB) {
 	category := modeldb.SkillCategoryDB{
 		ID:           categoryID,
 		CategoryName: "Tool & Monitoring",
+		Order:        7,
 	}
 
 	if err := db.WithContext(ctx).Create(&category).Error; err != nil {
@@ -29,26 +30,10 @@ func SeedToolSkills(db *gorm.DB) {
 	}
 
 	skills := []modeldb.SkillDB{
-		{
-			SkillName:  "Grafana",
-			SvgURL:     "/svgs/grafana.svg",
-			CategoryID: categoryID,
-		},
-		{
-			SkillName:  "Elasticsearch",
-			SvgURL:     "/svgs/elasticsearch.svg",
-			CategoryID: categoryID,
-		},
-		{
-			SkillName:  "Azure Application Insights",
-			SvgURL:     "/svgs/azure-app-insights.svg",
-			CategoryID: categoryID,
-		},
-		{
-			SkillName:  "KQL",
-			SvgURL:     "/svgs/kql.svg",
-			CategoryID: categoryID,
-		},
+		{SkillName: "Grafana", SvgURL: "/svgs/grafana.svg", CategoryID: categoryID, Order: 1},
+		{SkillName: "Azure Application Insights", SvgURL: "/svgs/azure-app-insights.svg", CategoryID: categoryID, Order: 2},
+		{SkillName: "Elasticsearch", SvgURL: "/svgs/elasticsearch.svg", CategoryID: categoryID, Order: 3},
+		{SkillName: "KQL", SvgURL: "/svgs/kql.svg", CategoryID: categoryID, Order: 4},
 	}
 
 	if err := db.WithContext(ctx).Create(&skills).Error; err != nil {

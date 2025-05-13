@@ -22,6 +22,7 @@ func SeedMobileSkills(db *gorm.DB) {
 	category := modeldb.SkillCategoryDB{
 		ID:           categoryID,
 		CategoryName: "Mobile",
+		Order:        5,
 	}
 
 	if err := db.WithContext(ctx).Create(&category).Error; err != nil {
@@ -29,10 +30,10 @@ func SeedMobileSkills(db *gorm.DB) {
 	}
 
 	skills := []modeldb.SkillDB{
-		{SkillName: "Apple", SvgURL: "/svgs/apple.svg", CategoryID: categoryID},
-		{SkillName: "Swift", SvgURL: "/svgs/swift.svg", CategoryID: categoryID},
-		{SkillName: "SwiftUI", SvgURL: "/svgs/swiftui.svg", CategoryID: categoryID},
-		{SkillName: "XCode", SvgURL: "/svgs/xcode.svg", CategoryID: categoryID},
+		{SkillName: "Swift", SvgURL: "/svgs/swift.svg", CategoryID: categoryID, Order: 1},
+		{SkillName: "SwiftUI", SvgURL: "/svgs/swiftui.svg", CategoryID: categoryID, Order: 2},
+		{SkillName: "XCode", SvgURL: "/svgs/xcode.svg", CategoryID: categoryID, Order: 3},
+		{SkillName: "Apple", SvgURL: "/svgs/apple.svg", CategoryID: categoryID, Order: 4},
 	}
 
 	if err := db.WithContext(ctx).Create(&skills).Error; err != nil {

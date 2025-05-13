@@ -15,4 +15,3 @@
 # Env
 .env
 
-internal/infra/initializer/*SeedData.go

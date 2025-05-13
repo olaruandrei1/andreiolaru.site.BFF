@@ -22,6 +22,7 @@ func SeedCICDSkills(db *gorm.DB) {
 	category := modeldb.SkillCategoryDB{
 		ID:           categoryID,
 		CategoryName: "CI/CD & Methodologies",
+		Order:        8,
 	}
 
 	if err := db.WithContext(ctx).Create(&category).Error; err != nil {
@@ -29,16 +30,16 @@ func SeedCICDSkills(db *gorm.DB) {
 	}
 
 	skills := []modeldb.SkillDB{
-		{SkillName: "Git", SvgURL: "/svgs/git.svg", CategoryID: categoryID},
-		{SkillName: "GitHub", SvgURL: "/svgs/github.svg", CategoryID: categoryID},
-		{SkillName: "Azure DevOps", SvgURL: "/svgs/azure-devops.svg", CategoryID: categoryID},
-		{SkillName: "Jenkins", SvgURL: "/svgs/jenkins.svg", CategoryID: categoryID},
-		{SkillName: "Jira", SvgURL: "/svgs/jira.svg", CategoryID: categoryID},
-		{SkillName: "Confluence", SvgURL: "/svgs/confluence.svg", CategoryID: categoryID},
-		{SkillName: "Agile", SvgURL: "/svgs/agile.svg", CategoryID: categoryID},
-		{SkillName: "Scrum", SvgURL: "/svgs/scrum.svg", CategoryID: categoryID},
-		{SkillName: "Kanban", SvgURL: "/svgs/kanban.svg", CategoryID: categoryID},
-		{SkillName: "Waterfall", SvgURL: "/svgs/waterfall.svg", CategoryID: categoryID},
+		{SkillName: "Git", SvgURL: "/svgs/git.svg", CategoryID: categoryID, Order: 1},
+		{SkillName: "GitHub", SvgURL: "/svgs/github.svg", CategoryID: categoryID, Order: 2},
+		{SkillName: "Azure DevOps", SvgURL: "/svgs/azure-devops.svg", CategoryID: categoryID, Order: 3},
+		{SkillName: "Jenkins", SvgURL: "/svgs/jenkins.svg", CategoryID: categoryID, Order: 4},
+		{SkillName: "Jira", SvgURL: "/svgs/jira.svg", CategoryID: categoryID, Order: 5},
+		{SkillName: "Confluence", SvgURL: "/svgs/confluence.svg", CategoryID: categoryID, Order: 6},
+		{SkillName: "Agile", SvgURL: "/svgs/agile.svg", CategoryID: categoryID, Order: 7},
+		{SkillName: "Scrum", SvgURL: "/svgs/scrum.svg", CategoryID: categoryID, Order: 8},
+		{SkillName: "Kanban", SvgURL: "/svgs/kanban.svg", CategoryID: categoryID, Order: 9},
+		{SkillName: "Waterfall", SvgURL: "/svgs/waterfall.svg", CategoryID: categoryID, Order: 10},
 	}
 
 	if err := db.WithContext(ctx).Create(&skills).Error; err != nil {

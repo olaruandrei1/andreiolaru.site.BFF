@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"log"
 
 	appmodel "andreiolaru.site.bff/internal/domain/model/gets"
 	dbmodel "andreiolaru.site.bff/internal/infra/repository/modeldb"
@@ -21,25 +22,31 @@ func (r *GormSkillRepository) GetSkills(ctx context.Context) ([]appmodel.SkillCa
 
 	if err := r.db.WithContext(ctx).
 		Preload("Skills", func(db *gorm.DB) *gorm.DB {
-			return db.Order("order ASC")
+			return db.Order("`skill`.`order` ASC")
 		}).
-		Order("order ASC").
+		Order("`skill_category`.`order` ASC").
 		Find(&dbCategories).Error; err != nil {
+		log.Printf("Error fetching skills: %v", err)
 		return nil, err
 	}
 
 	var result []appmodel.SkillCategory
 
 	for _, cat := range dbCategories {
-		skillsMap := make(map[string]string)
+		var skills []appmodel.Skill
 		for _, skill := range cat.Skills {
-			skillsMap[skill.SkillName] = skill.SvgURL
+			skills = append(skills, appmodel.Skill{
+				Name:   skill.SkillName,
+				SvgURL: skill.SvgURL,
+				Order:  skill.Order,
+			})
 		}
 
 		result = append(result, appmodel.SkillCategory{
 			ID:           cat.ID,
 			CategoryName: cat.CategoryName,
-			Skills:       skillsMap,
+			Order:        cat.Order,
+			Skills:       skills,
 		})
 	}
 

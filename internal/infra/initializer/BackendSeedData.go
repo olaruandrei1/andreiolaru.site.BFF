@@ -31,6 +31,8 @@ func SeedBackendSkills(db *gorm.DB) error {
 			{SkillName: "Spring Boot", SvgURL: "/svgs/spring-boot.svg", CategoryID: categoryID, Order: 9},
 			{SkillName: "Python", SvgURL: "/svgs/python.svg", CategoryID: categoryID, Order: 10},
 			{SkillName: "Django", SvgURL: "/svgs/django.svg", CategoryID: categoryID, Order: 11},
+			{SkillName: "Ruby", SvgURL: "/svgs/ruby.svg", CategoryID: categoryID, Order: 14},
+			{SkillName: "Rails", SvgURL: "/svgs/rails.svg", CategoryID: categoryID, Order: 15},
 			{SkillName: "C++", SvgURL: "/svgs/cpp.svg", CategoryID: categoryID, Order: 12},
 			{SkillName: "STL", SvgURL: "/svgs/standard-template-library.svg", CategoryID: categoryID, Order: 13},
 		},

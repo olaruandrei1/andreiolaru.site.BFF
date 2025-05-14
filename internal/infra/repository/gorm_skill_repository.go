@@ -24,6 +24,7 @@ func (r *GormSkillRepository) GetSkills(ctx context.Context) ([]appmodel.SkillCa
 		Preload("Skills", func(db *gorm.DB) *gorm.DB {
 			return db.Order("`skill`.`order` ASC")
 		}).
+		Where("category_name != ?", "OtherTopics").
 		Order("`skill_category`.`order` ASC").
 		Find(&dbCategories).Error; err != nil {
 		log.Printf("Error fetching skills: %v", err)

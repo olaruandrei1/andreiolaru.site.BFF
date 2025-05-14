@@ -4,7 +4,7 @@ import "time"
 
 type ContactMessageDB struct {
 	ID        uint `gorm:"primaryKey"`
-	Name      string
+	Subject   string
 	Email     string
 	Message   string
 	CreatedAt time.Time

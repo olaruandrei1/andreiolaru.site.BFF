@@ -56,24 +56,33 @@ func (r *GormProjectRepository) GetProjects(ctx context.Context) ([]appmodel.Pro
 		return nil, err
 	}
 
+	fmt.Printf("Decoded %d repos from GitHub\n", len(raw))
+
 	var projects []appmodel.Project
 
 	for _, repo := range raw {
 		var technologies []appmodel.ProjectTechnology
 
 		lang := strings.TrimSpace(repo.Language)
-		shouldAddLang := lang != "" && !stringInSliceInsensitive(lang, repo.Topics)
-		if shouldAddLang {
-			technologies = append(technologies, appmodel.ProjectTechnology{
-				Name: lang,
-				Icon: r.getIconForSkill(ctx, lang),
-			})
+		if lang != "" && !stringInSliceInsensitive(lang, repo.Topics) {
+			mappedLang := mapping.NormalizeTopic(lang)
+			if mappedLang != "" && !containsTech(technologies, mappedLang) {
+				technologies = append(technologies, appmodel.ProjectTechnology{
+					Name: mappedLang,
+					Icon: r.getIconForSkill(ctx, mappedLang),
+				})
+			}
 		}
 
 		for _, topic := range repo.Topics {
 			mapped := mapping.NormalizeTopic(topic)
 
-			if mapped == "" || containsTech(technologies, mapped) {
+			if mapped == "" {
+				fmt.Printf("Topic invalid in repo %s: %q\n", repo.Name, topic)
+				continue
+			}
+
+			if containsTech(technologies, mapped) {
 				continue
 			}
 
@@ -90,20 +99,33 @@ func (r *GormProjectRepository) GetProjects(ctx context.Context) ([]appmodel.Pro
 		}
 
 		projects = append(projects, project)
+
 	}
 
 	return projects, nil
 }
 
 func (r *GormProjectRepository) getIconForSkill(ctx context.Context, skillName string) string {
+	if strings.TrimSpace(skillName) == "" {
+		fmt.Println("⚠️ getIconForSkill called with empty skillName")
+		return "/icons/default.svg"
+	}
+
 	var skill dbmodel.SkillDB
 	err := r.db.WithContext(ctx).
 		Where("LOWER(skill_name) = ?", strings.ToLower(skillName)).
 		First(&skill).Error
 
-	if err != nil || skill.SvgURL == "" {
+	if err != nil {
+		fmt.Printf("Skill not found: %s (err: %v)\n", skillName, err)
 		return "/icons/default.svg"
 	}
+
+	if skill.SvgURL == "" {
+		fmt.Printf("Skill has no SvgURL: %s\n", skillName)
+		return "/icons/default.svg"
+	}
+
 	return skill.SvgURL
 }
 

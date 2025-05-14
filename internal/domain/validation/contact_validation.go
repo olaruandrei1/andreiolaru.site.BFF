@@ -9,7 +9,7 @@ import (
 )
 
 func ValidateContactMessage(msg puts.ContactMessage) error {
-	if strings.TrimSpace(msg.Name) == "" {
+	if strings.TrimSpace(msg.Subject) == "" {
 		return errors.New("name is required")
 	}
 	if !isValidEmail(msg.Email) {

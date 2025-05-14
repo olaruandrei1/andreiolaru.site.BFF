@@ -45,17 +45,7 @@ func (r *Router) RegisterRoutes() *http.ServeMux {
 	mux.Handle("/skills", r.SkillHandler)
 	mux.Handle("/projects", r.ProjectHandler)
 	mux.Handle("/education", r.EducationHandler)
-
-	mux.Handle("/contact", http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-		switch req.Method {
-		case http.MethodGet:
-			r.ContactHandler.ServeHTTP(w, req)
-		case http.MethodPost:
-			NewContactPostHandler(r.ContactHandler.Service).ServeHTTP(w, req)
-		default:
-			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
-		}
-	}))
+	mux.Handle("/contact", r.ContactHandler)
 
 	return mux
 }

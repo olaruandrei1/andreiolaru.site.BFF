@@ -28,7 +28,7 @@ func (r *GormContactRepository) GetContact(ctx context.Context) (*model.Contact,
 
 func (r *GormContactRepository) SaveContactMessage(ctx context.Context, msg puts.ContactMessage) error {
 	return r.db.WithContext(ctx).Create(&modeldb.ContactMessageDB{
-		Name:      msg.Name,
+		Subject:   msg.Subject,
 		Email:     msg.Email,
 		Message:   msg.Message,
 		CreatedAt: time.Now(),

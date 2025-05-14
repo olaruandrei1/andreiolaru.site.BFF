@@ -78,12 +78,24 @@ var githubTopicAliases = map[string]string{
 	"plpgsql":                   "PostgreSQL (PL/pgSQL)",
 	"plpg":                      "PostgreSQL (PL/pgSQL)",
 	"plpg-sql":                  "PostgreSQL (PL/pgSQL)",
+	"rbac":                      "RABC",
+	"adonet":                    "ADO NET",
+	"machine-learning":          "Machine Learning",
+	"bachelor-thesis":           "Bachelor Thesis",
+	"crispy-forms":              "Crispy Forms",
+	"discordbot":                "Discord BOT",
 }
 
 func NormalizeTopic(topic string) string {
 	t := strings.ToLower(strings.TrimSpace(topic))
+
+	if t == "" {
+		return ""
+	}
+
 	if mapped, exists := githubTopicAliases[t]; exists {
 		return mapped
 	}
-	return strings.Title(t)
+
+	return strings.ToUpper(t[:1]) + t[1:]
 }

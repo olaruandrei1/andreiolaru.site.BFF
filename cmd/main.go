@@ -1,18 +1,17 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 
 	"andreiolaru.site.bff/internal/adapter/rest"
 	"andreiolaru.site.bff/internal/app"
 	"andreiolaru.site.bff/internal/app/helpers/httpclient"
+	dbretry "andreiolaru.site.bff/internal/infra/dbfactory"
 	seed "andreiolaru.site.bff/internal/infra/initializer"
 	"andreiolaru.site.bff/internal/infra/repository"
 	"andreiolaru.site.bff/internal/infra/repository/migration"
@@ -35,16 +34,7 @@ func main() {
 		log.Fatal("❌ EXTERNAL_CONTACT_API_KEY not set")
 	}
 
-	user := os.Getenv("DB_USER")
-	pass := os.Getenv("DB_PASS")
-	host := os.Getenv("DB_HOST")
-	name := os.Getenv("DB_NAME")
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true&charset=utf8mb4&loc=Local", user, pass, host, name)
-
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil {
-		log.Fatalf("Failed to connect to DB: %v", err)
-	}
+	db := dbretry.ConnectWithRetry(10, 3*time.Second)
 
 	migration.DropAllTables(db)
 

@@ -22,7 +22,7 @@ func initMe(db *gorm.DB) {
 			Title:       "Hi, I'm Andrei 👋",
 			Job:         "Software Engineer",
 			Description: "I'm a results-driven engineer with a strong passion for designing full-stack software that is fast, secure, and scalable. I combine technical depth with creative vision to build elegant solutions that matter.",
-			ImageURL:    "public/personal_photos/photo.png",
+			ImageURL:    "personal_photos/photo.png",
 		}
 		if err := db.Create(&me).Error; err != nil {
 			log.Printf("Failed to seed MeDB: %v", err)
@@ -41,7 +41,7 @@ func initAbout(db *gorm.DB) {
 			WhoIAmText:   "I'm a passionate Software Engineer focused on building scalable, high-performance, and user-centric solutions across the full stack. I adapt quickly to new technologies and frameworks, with hands-on experience in front-end, back-end, and cloud services. Always eager to learn and evolve, I thrive in collaborative environments where I can deliver efficient, secure, and reliable software that drives real impact.",
 			MindsetTitle: "Mindset & Vision",
 			MindsetText:  "Driven by innovation and purpose, I aim to craft impactful solutions through collaboration, adaptability, and a growth mindset.",
-			CVURL:        "https://andreiolaru.com/cv.pdf",
+			CVURL:        "andrei_olaru_se.pdf",
 		}
 		if err := db.Create(&about).Error; err != nil {
 			log.Printf("Failed to seed AboutDB: %v", err)
@@ -131,7 +131,7 @@ func initExperience(db *gorm.DB) {
 				Company:   "EXE Software",
 				Title:     "Software Engineer",
 				Period:    "Mar 2025 – Present",
-				PhotoPath: "public/photos/experience/exe-software.png",
+				PhotoPath: "photos/experience/exe-software.png",
 				Description: `• Working across multiple client-facing projects, focusing on backend, web, and cloud integration — building APIs, developing web applications, and leveraging Azure services to deliver scalable, production-ready solutions;
 • Experience includes developing RESTful APIs, background services, and workers using .NET Core 8 and SQL Server, as well as creating web applications with Blazor (Server-Side) and Vue.js (Vue 2 and Vue 3);
 • Handled database operations with Microsoft SQL Server and MySQL;
@@ -145,7 +145,7 @@ func initExperience(db *gorm.DB) {
 				Company:   "Banca Transilvania SA",
 				Title:     "Junior Software Engineer",
 				Period:    "Oct 2022 – Feb 2025",
-				PhotoPath: "public/photos/experience/banca-transilvania.png",
+				PhotoPath: "photos/experience/banca-transilvania.png",
 				Description: `• Developed and deployed end-to-end web applications, including front-end interfaces, back-end services, and database architecture;
 • Maintained and enhanced existing applications by identifying, tracking, and resolving bugs;
 • Provided production support, monitoring and resolving issues to ensure smooth operation of applications;
@@ -156,7 +156,7 @@ func initExperience(db *gorm.DB) {
 				Company:   "Banca Transilvania SA",
 				Title:     "Software Engineer Intern",
 				Period:    "Sep 2022 – Sep 2022",
-				PhotoPath: "public/photos/experience/banca-transilvania.png",
+				PhotoPath: "photos/experience/banca-transilvania.png",
 				Description: `• Assisted in the development and maintenance of web applications by implementing features and fixing bugs;
 • Collaborated with senior developers to improve application performance, security, and code quality;
 • Gained hands-on experience with front-end, back-end, and database technologies;

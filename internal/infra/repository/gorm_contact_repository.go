@@ -20,9 +20,9 @@ func NewGormContactRepository(db *gorm.DB) *GormContactRepository {
 
 func (r *GormContactRepository) GetContact(ctx context.Context) (*model.Contact, error) {
 	return &model.Contact{
-		LinkedIn: "https://www.linkedin.com/in/olaruandrei",
+		LinkedIn: "https://www.linkedin.com/in/andrei-olaru-23504b362/",
 		GitHub:   "https://github.com/olaruandrei1",
-		X:        "https://x.com/olaruandrei",
+		X:        "https://x.com/AndreiOlar78690",
 	}, nil
 }
 

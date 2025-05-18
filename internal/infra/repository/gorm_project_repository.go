@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 	"strings"
@@ -40,9 +41,24 @@ func (r *GormProjectRepository) GetProjects(ctx context.Context) ([]appmodel.Pro
 	req.Header.Set("Accept", "application/vnd.github+json")
 	req.Header.Set("User-Agent", "GoPortfolioBackend")
 	req.Header.Set("Accept", "application/vnd.github.mercy-preview+json")
-
 	resp, err := http.DefaultClient.Do(req)
-	fmt.Printf("GitHub response status: %s\n", resp.Status)
+	if err != nil {
+		fmt.Printf("❌ GitHub API request failed: %v\n", err)
+		return nil, fmt.Errorf("GitHub request failed: %w", err)
+	}
+	if resp == nil {
+		fmt.Println("❌ GitHub response is nil!")
+		return nil, fmt.Errorf("GitHub API returned nil response")
+	}
+	fmt.Printf("✅ GitHub response status: %d\n", resp.StatusCode)
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(resp.Body)
+		fmt.Printf("❗ GitHub returned unexpected status: %d\n%s\n", resp.StatusCode, body)
+		return nil, fmt.Errorf("GitHub API error: %s", resp.Status)
+	}
 
 	if err != nil {
 		return nil, err

@@ -30,6 +30,8 @@ func (r *GormProjectRepository) GetProjects(ctx context.Context) ([]appmodel.Pro
 
 	url := fmt.Sprintf("https://api.github.com/users/%s/repos?sort=created&direction=desc", username)
 
+	fmt.Printf("GitHub request URL: %s\n", url)
+
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		return nil, err
@@ -40,6 +42,8 @@ func (r *GormProjectRepository) GetProjects(ctx context.Context) ([]appmodel.Pro
 	req.Header.Set("Accept", "application/vnd.github.mercy-preview+json")
 
 	resp, err := http.DefaultClient.Do(req)
+	fmt.Printf("GitHub response status: %s\n", resp.Status)
+
 	if err != nil {
 		return nil, err
 	}
@@ -53,6 +57,7 @@ func (r *GormProjectRepository) GetProjects(ctx context.Context) ([]appmodel.Pro
 	}
 
 	if err := json.NewDecoder(resp.Body).Decode(&raw); err != nil {
+		fmt.Printf("JSON decode failed: %v\n", err)
 		return nil, err
 	}
 
@@ -61,6 +66,7 @@ func (r *GormProjectRepository) GetProjects(ctx context.Context) ([]appmodel.Pro
 	var projects []appmodel.Project
 
 	for _, repo := range raw {
+		fmt.Printf("Processing repo: %s | Language: %s | Topics: %v\n", repo.Name, repo.Language, repo.Topics)
 		var technologies []appmodel.ProjectTechnology
 
 		lang := strings.TrimSpace(repo.Language)
@@ -110,6 +116,8 @@ func (r *GormProjectRepository) getIconForSkill(ctx context.Context, skillName s
 		fmt.Println("⚠️ getIconForSkill called with empty skillName")
 		return "/icons/default.svg"
 	}
+
+	fmt.Printf("Looking up icon for skill: %q\n", skillName)
 
 	var skill dbmodel.SkillDB
 	err := r.db.WithContext(ctx).
